@@ -147,7 +147,6 @@ while True:
 
 ## 🚧 Próximos Passos
 
-* 💬 Integração com alertas via Telegram
 * 📊 Dashboard de monitoramento
 * 🛡 Implementação de Firewall / IDS (Projeto 3)
 * ☁️ Deploy em ambiente real
