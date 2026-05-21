@@ -1,8 +1,8 @@
 import requests
 
 # Configuração do Telegram
-TELEGRAM_BOT_TOKEN = "8677925355:AAHWjg3-FQnV9FvIVLlC7zi9Kt0mgJlgejw"
-CHAT_ID = "-1003803781634"
+TELEGRAM_BOT_TOKEN = "coloque seu token aqui"
+CHAT_ID = "coloque o ID do chat aqui"
 
 def send_telegram_message(message):
     """Envia mensagem para o Telegram"""

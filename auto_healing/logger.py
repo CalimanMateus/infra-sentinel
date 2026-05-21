@@ -32,7 +32,7 @@ logger = setup_logger()
 
 def log(message, level="INFO"):
     """
-    Função central de log
+    Função central de log - OTIMIZADA SEM DUPLICAÇÃO
     Args:
         message (str): Mensagem para logar
         level (str): Nível do log (INFO, SUCCESS, ERROR, WARNING)
@@ -40,14 +40,14 @@ def log(message, level="INFO"):
     timestamp = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
     formatted_message = f"[{timestamp}] [{level}] {message}"
     
-    # Escrever no arquivo
+    # Escrever no arquivo (única escrita)
     with open(LOG_FILE, 'a', encoding='utf-8') as f:
         f.write(formatted_message + '\n')
     
-    # Exibir no console
+    # Exibir no console (único console output)
     print(formatted_message)
     
-    # Log no sistema de logging
+    # Usar sistema de logging APENAS para estruturação (sem duplicar)
     if level == "ERROR":
         logger.error(message)
     elif level == "WARNING":

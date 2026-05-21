@@ -1,5 +1,15 @@
 #!/bin/bash
-# Reiniciar serviço de rede
+# Reiniciar serviço de rede COM SEGURANÇA
+
+# ⚠️ AVISO: Esta operação pode derrubar conexão SSH
+echo "WARNING: Reiniciando serviço de rede - PODE HAVER DESCONEXÃO"
+
+# Verificar se estamos em sessão SSH
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    echo "WARNING: Detectada sessão SSH - Risco de desconexão!"
+    echo "INFO: Aguardando 10 segundos para possível cancelamento..."
+    sleep 10
+fi
 
 # Verificar se systemctl está disponível
 if command -v systemctl >/dev/null 2>&1; then

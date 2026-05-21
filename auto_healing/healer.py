@@ -9,19 +9,23 @@ from pathlib import Path
 from .backup import backup_dns
 from .rollback import rollback_dns
 from .logger import log
+from checks.dns import test_dns
 
 def change_dns():
     """
     Altera DNS para Google DNS
+    Tenta nmcli primeiro (persistente), fallback para método tradicional
     Returns:
         bool: True se sucesso, False se falha
     """
     try:
-        script_path = Path(__file__).parent / "actions" / "change_dns.sh"
+        # Tentar método nmcli primeiro (persistente)
+        script_path = Path(__file__).parent / "actions" / "change_dns_nmcli.sh"
         
         if not script_path.exists():
-            log(f"Script de alteração DNS não encontrado: {script_path}", "ERROR")
-            return False
+            # Fallback para método tradicional
+            script_path = Path(__file__).parent / "actions" / "change_dns.sh"
+            log("Usando método tradicional de DNS", "INFO")
         
         result = subprocess.run(
             ["bash", str(script_path)],
@@ -129,6 +133,17 @@ def _heal_dns():
         log("Aguardando estabilização da rede...", "INFO")
         time.sleep(5)
         
+        # 6. VALIDAÇÃO PÓS-CORREÇÃO (SRE LEVEL)
+        log("Validando se DNS foi corrigido...", "INFO")
+        dns_test = test_dns()
+        
+        if not dns_test["status"]:
+            log(f"❌ Falha na validação DNS: {dns_test['error']}", "ERROR")
+            log("🔄 Executando rollback automático...", "WARNING")
+            rollback_dns()
+            return False
+        
+        log("✅ DNS validado com sucesso", "SUCCESS")
         log("Auto-healing DNS concluído com sucesso", "SUCCESS")
         return True
         

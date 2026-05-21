@@ -10,8 +10,7 @@ if [ ! -f "$DNS_FILE" ]; then
     exit 1
 fi
 
-# Backup automático antes de alterar
-cp "$DNS_FILE" "$DNS_FILE.auto.bkp"
+# Alterar DNS (backup será gerenciado pelo Python)
 
 # Alterar DNS
 if echo -e "$DNS_SERVERS" > "$DNS_FILE"; then

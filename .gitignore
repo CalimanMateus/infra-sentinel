@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+*.pyo
+*.log
+logs/
+infra-sentinel.log
+*.key
+*.pem
+.env
+.env.*
